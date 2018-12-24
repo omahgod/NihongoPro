@@ -1,0 +1,9 @@
+.buttonStyling {
+    src:  url('../fonts/BebasNeue.otf');
+    font-weight: 600;
+    font-style: normal;
+    font-size:20px;
+}
+.clickableButton{
+    cursor:pointer;
+}
