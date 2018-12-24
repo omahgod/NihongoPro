@@ -40,27 +40,13 @@
         username:'admin',
         password:'password',
       },
-      vocabularyLevels:[
+      levels:[
         'N5',
         'N4',
         'N3',
         'N2',
         'N1'
       ],
-      grammarLevels:[
-        'N5',
-        'N4',
-        'N3',
-        'N2',
-        'N1'
-      ],
-      kanjiLevels:[
-        'N5',
-        'N4',
-        'N3',
-        'N2',
-        'N1'
-      ]
     }),
     computed: {
       username () {
@@ -114,13 +100,9 @@
       },
       signUpUser()
       {
+        this.menu = false;
         this.$root.router(this.signUp);
         this.$router.push('/signup');
-      },
-      functionName()
-      {
-        this.errorList=[];
-        console.log(`clicking out `);
       },
     },
     watch :
@@ -155,19 +137,12 @@
       <v-card>
           <v-card-text>
             <v-form>
-              <!--<v-card v-if="errorList.length>0">
-              <v-card-text color="alert"  v-bind:key="error" v-for="error in errorList">
-              <v-card-text>{{error}}</v-card-text>
-              </v-card-text>
-              </v-card>-->
               <v-text-field prepend-icon="person" v-model='userData.username' label="Username"></v-text-field>
               <v-text-field prepend-icon="lock" v-model='userData.password' label="Password" type="password"></v-text-field>
             </v-form>
             <v-btn color="primary" class="buttonStyling" flat @click="loginForm()">Log In</v-btn>
             <v-btn flat @click="signUpUser()" class="buttonStyling">Sign Up</v-btn>
-
             <v-divider></v-divider>
-
           </v-card-text>
       </v-card>
     </v-menu>
