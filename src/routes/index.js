@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import MainMenu from '@/components/mainMenu';
-import Login from '@/components/login';
+import signUp from '@/components/signUp';
 import kanjiManagement from '@/components/kanjiManagement';
 import katakanaManagement from '@/components/katakanaManagement';
 import hiraganaManagement from '@/components/hiraganaManagement';
@@ -17,8 +17,8 @@ const routes =
       component: MainMenu
     },
     {
-      path: '/login',
-      component: Login
+      path: '/signup',
+      component: signUp
     },
     {
       path: '/kanjis',
