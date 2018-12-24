@@ -1,4 +1,4 @@
-# my-app
+# nihongopro
 
 ## Project setup
 ```
