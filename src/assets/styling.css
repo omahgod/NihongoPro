@@ -7,3 +7,8 @@
 .clickableButton{
     cursor:pointer;
 }
+.main_title {
+    src:  url('../fonts/BebasNeue.otf');
+    font-weight: 600;
+    font-size:50px;
+}

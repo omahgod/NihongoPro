@@ -43,7 +43,6 @@
       SignUpUser()
       {
         // have a database call here to save the new user.
-
       }
     },
     data: () => ({

@@ -55,6 +55,20 @@
     },
     methods: 
     {
+      router()
+      {
+        this.$root.redirect(
+          {
+            menuTextColor:`black`,
+            backgroundImage: `white_backgroud.png`,
+            barColor:'rgba(255,255,255, 1)',
+            name:'Forgotten Password',
+            icon:'home',
+            command:'/forgotten_password',
+          }
+        );
+        this.menu = false;
+      },
       loginForm()
       {
         this.errorList=[];
@@ -143,6 +157,9 @@
             <v-btn color="primary" class="buttonStyling" flat @click="loginForm()">Log In</v-btn>
             <v-btn flat @click="signUpUser()" class="buttonStyling">Sign Up</v-btn>
             <v-divider></v-divider>
+           <v-layout justify-center>
+            <a @click="router()">Forgotten Password?</a>
+           </v-layout>
           </v-card-text>
       </v-card>
     </v-menu>

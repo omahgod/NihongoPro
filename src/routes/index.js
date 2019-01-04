@@ -7,7 +7,7 @@ import kanjiManagement from '@/components/kanjiManagement';
 import katakanaManagement from '@/components/katakanaManagement';
 import hiraganaManagement from '@/components/hiraganaManagement';
 import userPofile from '@/components/userProfile';
-
+import forgottenPassword from '@/components/forgottenPassword';
 Vue.use(Router)
 
 const routes =
@@ -35,6 +35,10 @@ const routes =
     {
       path:'/userprofile',
       component:userPofile
+    },
+    {
+      path:'/forgotten_password',
+      component:forgottenPassword
     }
   ]
 

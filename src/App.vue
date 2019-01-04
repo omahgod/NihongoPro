@@ -156,10 +156,17 @@ export default {
       name:'Sign Up',
       icon:'home',
       command:'/signup',
+     },
+     forgottenPassword:{
+      menuTextColor:`black`,
+      backgroundImage: `white_backgroud.png`,
+      barColor:'rgba(255,255,255, 1)',
+      name:'Forgotten Password',
+      icon:'home',
+      command:'/forgotten_password',
      }
     }
   },
-
   created: function()
   {
     this.setMenus();
@@ -206,6 +213,12 @@ export default {
     {
       this.currentMenu = this.signUp;
     }
+    if(currentRoute == '/forgotten_password')
+    {
+      this.currentMenu = this.forgottenPassword;
+    }
+
+    
     //this.$root.router(currentRoute);
   },
 
