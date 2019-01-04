@@ -9,7 +9,7 @@
       <v-flex sm12 md12>
         <v-toolbar  height="100" app v-if="menuVisible" flat :color="currentMenu.barColor">
           <v-flex></v-flex>
-          <v-toolbar-items v-if="loggedIn" v-for="(menu,i) in menus" v-bind:key="i">
+          <v-toolbar-items v-for="(menu,i) in menus" :key="i">
                 <v-btn :style="`color:${currentMenu.menuTextColor ? currentMenu.menuTextColor : 'white'}`" @click="router(menu)" large class="buttonStyling" flat>{{menu.name}}</v-btn>
           </v-toolbar-items>
           <v-spacer></v-spacer>
@@ -100,9 +100,18 @@ export default {
           command:'/',
           backgroundImage: `homepage_background.jpg`,
           barColor:'rgba(225, 17, 133, 1)',
+        },
+        {
+          order:1,
+          name:'Courses',
+          icon:'home',
+          command:'/courses',
+          backgroundImage: `white_backgroud.png`,
+          barColor:'rgba(255,255,255, 1)',
         }
       ],
-      menus:[
+      menus:[],
+      loggedInMenus:[
         {
           order:0,
           name:'Home',
@@ -153,6 +162,8 @@ export default {
 
   created: function()
   {
+    this.setMenus();
+
     this.$root.setMenuVisible = (menuVisible) =>
     {
         this.menuVisible = menuVisible;
@@ -168,6 +179,7 @@ export default {
     this.$root.setLoggedIn = (loggedIn) =>
     {
       this.loggedIn = loggedIn;
+      this.setMenus(loggedIn);
     };
     this.$root.globalNotification = (snackbar,notificationInformation) =>
     {
@@ -178,15 +190,18 @@ export default {
     {
       console.log(`calling router`);
       this.currentMenu = menu;
+    },
+    this.$root.redirect = (route) =>
+    {
+      this.router(route);
     }
   },
   mounted()
   {
-
     // when a database is established we can use this current path to determine what data to use.
     let currentRoute = this.$router.currentRoute.path;
 
-// hard coding this so i dont constantly get reverted after every nodemon change.
+    // hard coding this so i dont constantly get reverted after every nodemon change.
     if(currentRoute == '/signup')
     {
       this.currentMenu = this.signUp;
@@ -195,26 +210,19 @@ export default {
   },
 
   methods: {
-    checkLoggedIn()
+    setMenus()
     {
-      if(this.$root.loggedIn)
+      if(this.loggedIn)
       {
-        this.$router.push('/');
+        this.menus=[];
+        this.menus=this.loggedInMenus;
+        console.log(`logged in`)
       }
       else
       {
-        this.$router.push('/login');
-      }
-    },
-    setupAccount(setupType)
-    {
-      if(setupType == 'login')
-      {
-
-      }
-      else
-      {
-        console.log(`sign up`)
+        this.menus=[];
+        this.menus=this.loggedOutMenus;
+        console.log(`not logged in`)
       }
     },
     router (route) {
