@@ -4,9 +4,11 @@ import Vuetify from 'vuetify';
 import App from './App.vue'
 import router from './routes';
 import colors from 'vuetify/es5/util/colors';
+import VeeValidate from 'vee-validate';
+
 //import paypal from 'paypal-rest-sdk';
 Vue.config.productionTip = false
-
+Vue.use(VeeValidate);
 /*paypal.configure({
   'mode': 'sandbox', //sandbox or live
   'client_id': 'EBWKjlELKMYqRNQ6sYvFo64FtaRLRR5BdHEESmha49TM',

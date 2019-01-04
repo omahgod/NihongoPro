@@ -9,19 +9,11 @@
       <v-flex sm12 md12>
         <v-toolbar  height="100" app v-if="menuVisible" flat :color="currentMenu.barColor">
           <v-flex></v-flex>
-          <v-toolbar-items v-if="loggedIn" v-for="(menu,i) in menus" v-bind:key="i">
+          <v-toolbar-items v-for="(menu,i) in menus" :key="i">
                 <v-btn :style="`color:${currentMenu.menuTextColor ? currentMenu.menuTextColor : 'white'}`" @click="router(menu)" large class="buttonStyling" flat>{{menu.name}}</v-btn>
           </v-toolbar-items>
-          <!--   
-            <v-toolbar-items v-else v-for="(menus,index) in loggedOutMenus" v-bind:key="index">
-            <v-btn :style="`color:${currentMenu.menuTextColor ? currentMenu.menuTextColor : 'white'}`" @click="router(menus)" large class="buttonStyling" flat>{{menus.name}}</v-btn>
-            </v-toolbar-items>
-          -->
           <v-spacer></v-spacer>
           <v-toolbar-items v-if="!loggedIn">
-            <!-- 
-              <v-btn   :style="`color:${currentMenu.menuTextColor ? currentMenu.menuTextColor : 'white'}`" @click="setupAccount(`signup`)" large class="buttonStyling" flat>Sign Up</v-btn>
-            -->
             <login :currentMenu="currentMenu"></login>
           </v-toolbar-items>
           <v-toolbar-items v-else>
@@ -75,7 +67,7 @@ import notifications from '@/components/notifications';
 import userProfile from '@/components/userProfile';
 import Login from '@/components/login';
 import cssStyling from '@/assets/styling.css';
-
+import util from 'util';
 export default {
   name: 'App',
   components: {notifications,userProfile,Login},
@@ -93,7 +85,7 @@ export default {
       showNotification:false,
       userColor:'green',
       currentMenu:{
-        order:0,
+          order:0,
           name:'Home',
           icon:'home',
           command:'/',
@@ -108,9 +100,18 @@ export default {
           command:'/',
           backgroundImage: `homepage_background.jpg`,
           barColor:'rgba(225, 17, 133, 1)',
+        },
+        {
+          order:1,
+          name:'Courses',
+          icon:'home',
+          command:'/courses',
+          backgroundImage: `white_backgroud.png`,
+          barColor:'rgba(255,255,255, 1)',
         }
       ],
-      menus:[
+      menus:[],
+      loggedInMenus:[
         {
           order:0,
           name:'Home',
@@ -148,11 +149,21 @@ export default {
           color:`black`
         }
       ],
+      signUp:{
+      menuTextColor:`black`,
+      backgroundImage: `white_backgroud.png`,
+      barColor:'rgba(255,255,255, 1)',
+      name:'Sign Up',
+      icon:'home',
+      command:'/signup',
+     }
     }
   },
 
   created: function()
   {
+    this.setMenus();
+
     this.$root.setMenuVisible = (menuVisible) =>
     {
         this.menuVisible = menuVisible;
@@ -168,42 +179,50 @@ export default {
     this.$root.setLoggedIn = (loggedIn) =>
     {
       this.loggedIn = loggedIn;
+      this.setMenus(loggedIn);
     };
     this.$root.globalNotification = (snackbar,notificationInformation) =>
     {
       this.showNotification = snackbar;
       this.notificationInformation = notificationInformation;
-
-      console.log(`snackbar ${snackbar} / not info ${notificationInformation.color}`);
     };
+    this.$root.router = (menu) =>
+    {
+      console.log(`calling router`);
+      this.currentMenu = menu;
+    },
+    this.$root.redirect = (route) =>
+    {
+      this.router(route);
+    }
   },
-
   mounted()
   {
+    // when a database is established we can use this current path to determine what data to use.
+    let currentRoute = this.$router.currentRoute.path;
 
+    // hard coding this so i dont constantly get reverted after every nodemon change.
+    if(currentRoute == '/signup')
+    {
+      this.currentMenu = this.signUp;
+    }
+    //this.$root.router(currentRoute);
   },
 
   methods: {
-    checkLoggedIn()
+    setMenus()
     {
-      if(this.$root.loggedIn)
+      if(this.loggedIn)
       {
-        this.$router.push('/');
+        this.menus=[];
+        this.menus=this.loggedInMenus;
+        console.log(`logged in`)
       }
       else
       {
-        this.$router.push('/login');
-      }
-    },
-    setupAccount(setupType)
-    {
-      if(setupType == 'login')
-      {
-
-      }
-      else
-      {
-        console.log(`sign up`)
+        this.menus=[];
+        this.menus=this.loggedOutMenus;
+        console.log(`not logged in`)
       }
     },
     router (route) {
